@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AussieMusafir — Private Car Tours Across Victoria</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #0E2A3B;
+    --navy-2: #163C52;
+    --cloud: #FBF8F2;
+    --cloud-dim: #F1EAD9;
+    --limestone: #D8C6A3;
+    --eucalyptus: #56765B;
+    --eucalyptus-dark: #3C5941;
+    --coral: #E2704B;
+    --coral-dark: #C4572F;
+    --ink: #1C2521;
+    --ink-soft: rgba(28,37,33,0.62);
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    background:var(--cloud); color:var(--ink);
+    font-family:'Manrope', sans-serif;
+    line-height:1.55;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4, .display{ font-family:'Fraunces', serif; font-weight:600; line-height:1.08; }
+  .display-italic{ font-style:italic; font-weight:500; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+  a{ color:inherit; text-decoration:none; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 32px; }
+  section{ position:relative; }
+  button{ font-family:inherit; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important; scroll-behavior:auto !important; }
+  }
+  a:focus-visible, button:focus-visible, summary:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible{
+    outline:2px solid var(--coral); outline-offset:3px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(251,248,242,0.88); backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(28,37,33,0.08);
+  }
+  .nav-inner{ max-width:1180px; margin:0 auto; padding:18px 32px; display:flex; align-items:center; justify-content:space-between; }
+  .logo{ font-family:'Fraunces', serif; font-weight:600; font-size:1.35rem; color:var(--navy); display:flex; align-items:baseline; gap:2px; }
+  .logo em{ font-style:italic; color:var(--coral); font-weight:500; }
+  .nav-links{ display:flex; gap:30px; font-size:0.86rem; font-weight:600; }
+  .nav-links a{ color:var(--ink); opacity:0.7; transition:opacity 0.2s; }
+  .nav-links a:hover{ opacity:1; }
+  .nav-cta{
+    background:var(--navy); color:var(--cloud); padding:11px 22px; border-radius:30px;
+    font-weight:700; font-size:0.84rem; border:none; cursor:pointer; transition:transform 0.15s ease, background 0.2s ease;
+  }
+  .nav-cta:hover{ transform:translateY(-1px); background:var(--coral); }
+  @media (max-width:840px){ .nav-links{ display:none; } }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    background: linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+    color:var(--cloud); padding:150px 0 0; overflow:hidden; position:relative;
+  }
+  .hero-eyebrow{
+    font-family:'IBM Plex Mono', monospace; font-size:0.8rem; letter-spacing:1.5px; text-transform:uppercase;
+    color:var(--limestone); display:flex; align-items:center; gap:10px; margin-bottom:22px;
+  }
+  .hero-eyebrow::before{ content:''; width:24px; height:1px; background:var(--limestone); }
+  .hero-text{ max-width:760px; padding-bottom:70px; }
+  .hero h1{ font-size:clamp(2.4rem, 6vw, 4.4rem); color:var(--cloud); }
+  .hero h1 .it{ font-style:italic; font-weight:500; color:var(--limestone); }
+  .hero-sub{ margin-top:24px; max-width:520px; font-size:1.12rem; color:rgba(251,248,242,0.72); }
+  .hero-actions{ display:flex; gap:16px; margin-top:34px; flex-wrap:wrap; }
+  .btn-primary{
+    background:var(--coral); color:#fff; padding:15px 28px; border-radius:30px;
+    font-weight:700; font-size:0.92rem; border:none; cursor:pointer; transition:transform 0.15s ease, background 0.2s ease;
+  }
+  .btn-primary:hover{ transform:translateY(-2px); background:var(--coral-dark); }
+  .btn-ghost{
+    border:1px solid rgba(251,248,242,0.35); color:var(--cloud); padding:15px 28px; border-radius:30px;
+    font-weight:600; font-size:0.92rem; background:transparent; cursor:pointer; transition:border-color 0.2s, background 0.2s;
+  }
+  .btn-ghost:hover{ border-color:var(--limestone); background:rgba(216,198,163,0.08); }
+
+  /* coastline illustration */
+  .horizon{ position:relative; height:180px; width:100%; }
+  .horizon svg{ position:absolute; bottom:0; left:0; width:100%; height:100%; display:block; }
+  .wave-anim{ animation:wave-shift 14s ease-in-out infinite alternate; }
+  @keyframes wave-shift{ from{ transform:translateX(0);} to{ transform:translateX(-40px);} }
+
+  /* ---------- TRUST STRIP ---------- */
+  .trust-strip{ background:var(--cloud-dim); padding:26px 0; border-bottom:1px solid rgba(28,37,33,0.08); }
+  .trust-inner{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:18px; font-size:0.86rem; font-weight:600; color:var(--ink); }
+  .trust-inner span{ display:flex; align-items:center; gap:8px; }
+  .trust-inner svg{ width:18px; height:18px; color:var(--eucalyptus); flex-shrink:0; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .sec-tag{ font-family:'IBM Plex Mono', monospace; font-size:0.78rem; letter-spacing:1.5px; text-transform:uppercase; color:var(--coral-dark); margin-bottom:14px; }
+  .sec-title{ font-size:clamp(1.8rem,4vw,2.7rem); color:var(--navy); max-width:640px; }
+  .sec-desc{ margin-top:16px; max-width:560px; color:var(--ink-soft); font-size:1.02rem; }
+  .sec-head-row{ display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:20px; }
+
+  /* ---------- PACKAGES (postcards) ---------- */
+  .packages{ padding:110px 0 100px; background:var(--cloud); }
+  .postcard-grid{ margin-top:52px; display:grid; grid-template-columns:repeat(2,1fr); gap:32px; }
+  @media (max-width:880px){ .postcard-grid{ grid-template-columns:1fr; } }
+
+  .postcard{
+    background:#fff; border-radius:4px; padding:0; position:relative;
+    box-shadow:0 1px 2px rgba(14,42,59,0.06), 0 12px 30px rgba(14,42,59,0.08);
+    border:1px solid rgba(28,37,33,0.08);
+    display:flex; flex-direction:column;
+    text-decoration:none; color:inherit;
+    transition:transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .postcard:hover{ transform:translateY(-4px); box-shadow:0 1px 2px rgba(14,42,59,0.08), 0 20px 40px rgba(14,42,59,0.14); }
+  .postcard-scene{ height:150px; position:relative; overflow:hidden; border-radius:4px 4px 0 0; }
+  .postcard-scene svg{ width:100%; height:100%; display:block; }
+  .postcard-airmail{
+    position:absolute; top:0; left:0; right:0; height:6px;
+    background:repeating-linear-gradient(-45deg, var(--coral) 0 10px, #fff 10px 20px, var(--navy) 20px 30px, #fff 30px 40px);
+    opacity:0.85;
+  }
+  .postcard-body{ padding:26px 26px 24px; flex-grow:1; display:flex; flex-direction:column; }
+  .postcard-top{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; }
+  .postcard-body h3{ font-size:1.5rem; color:var(--navy); }
+  .stamp{
+    flex-shrink:0; border:1.5px dashed var(--limestone); border-radius:4px; padding:8px 12px; text-align:center;
+    transform:rotate(3deg); background:var(--cloud-dim); display:flex; flex-direction:column; gap:3px; min-width:108px;
+  }
+  .stamp .p{ font-family:'IBM Plex Mono'; font-weight:700; font-size:0.88rem; color:var(--navy); line-height:1.2; }
+  .stamp .l{ font-family:'IBM Plex Mono'; font-size:0.56rem; letter-spacing:0.6px; color:var(--ink-soft); text-transform:uppercase; }
+  .stamp-div{ height:1px; background:rgba(28,37,33,0.18); margin:1px 4px; }
+  .postcard-tag{ font-family:'IBM Plex Mono'; font-size:0.75rem; color:var(--eucalyptus-dark); margin-top:4px; letter-spacing:0.3px; }
+  .postcard-highlights{ margin-top:16px; display:flex; flex-direction:column; gap:8px; flex-grow:1; }
+  .postcard-highlights li{ list-style:none; display:flex; gap:8px; font-size:0.92rem; color:var(--ink-soft); align-items:baseline; }
+  .postcard-highlights li::before{ content:'—'; color:var(--coral); flex-shrink:0; }
+  .postcard-foot{ display:flex; justify-content:space-between; align-items:center; margin-top:22px; padding-top:16px; border-top:1px dashed rgba(28,37,33,0.15); }
+  .postcard-dur{ font-size:0.82rem; color:var(--ink-soft); font-weight:600; }
+  .postcard-cta{ font-size:0.85rem; font-weight:700; color:var(--coral-dark); background:none; border:none; cursor:pointer; display:flex; align-items:center; gap:6px; }
+  .postcard-cta:hover{ text-decoration:underline; }
+
+  .custom-postcard{
+    background:var(--eucalyptus-dark); color:var(--cloud); border-radius:4px; padding:34px 30px;
+    display:flex; flex-direction:column; justify-content:space-between; gap:20px;
+    border:1px solid rgba(28,37,33,0.08);
+  }
+  .custom-postcard h3{ font-size:1.5rem; color:var(--cloud); }
+  .custom-postcard p{ color:rgba(251,248,242,0.75); font-size:0.95rem; margin-top:10px; }
+
+  /* ---------- COMPARISON TABLE ---------- */
+  .compare{ background:var(--navy); color:var(--cloud); padding:110px 0; }
+  .compare .sec-tag{ color:var(--limestone); }
+  .compare .sec-title, .compare .sec-desc{ color:var(--cloud); }
+  .compare .sec-desc{ color:rgba(251,248,242,0.65); }
+
+  .compare-table{ margin-top:48px; width:100%; border-collapse:collapse; }
+  .compare-table th, .compare-table td{ padding:18px 16px; text-align:left; border-bottom:1px solid rgba(251,248,242,0.12); font-size:0.94rem; }
+  .compare-table th{ font-family:'IBM Plex Mono'; font-size:0.75rem; letter-spacing:1px; text-transform:uppercase; color:rgba(251,248,242,0.55); font-weight:600; }
+  .compare-table td:first-child, .compare-table th:first-child{ color:rgba(251,248,242,0.55); font-weight:600; width:22%; }
+  .compare-table tr td.highlight-col, .compare-table th.highlight-col{ background:rgba(226,112,75,0.12); border-left:1.5px solid var(--coral); border-right:1.5px solid var(--coral); }
+  .compare-table td strong{ color:var(--limestone); font-family:'IBM Plex Mono'; }
+  .compare-note{ margin-top:20px; font-size:0.82rem; color:rgba(251,248,242,0.45); max-width:640px; }
+  @media (max-width:760px){
+    .compare-table{ display:block; overflow-x:auto; white-space:nowrap; }
+  }
+
+  /* ---------- ESSENTIALS ---------- */
+  .essentials{ background:var(--cloud-dim); padding:110px 0; }
+  .essentials .sec-tag{ color:var(--eucalyptus-dark); }
+  .ess-grid{ margin-top:50px; display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:880px){ .ess-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .ess-grid{ grid-template-columns:1fr; } }
+  .ess-item{ background:#fff; border-radius:8px; padding:28px; border:1px solid rgba(28,37,33,0.07); }
+  .ess-icon{ width:20px; height:20px; }
+  .ess-icon-wrap{ width:44px; height:44px; border-radius:50%; background:var(--cloud-dim); display:flex; align-items:center; justify-content:center; color:var(--eucalyptus); margin-bottom:16px; }
+  .ess-item h4{ font-size:1.05rem; color:var(--navy); margin-bottom:8px; }
+  .ess-item p{ font-size:0.9rem; color:var(--ink-soft); }
+
+  /* ---------- CUSTOM TRIP FORM ---------- */
+  .customize{ background:var(--cloud); padding:110px 0; }
+  .form-shell{
+    margin-top:52px; background:#fff; border-radius:10px; border:1px solid rgba(28,37,33,0.08);
+    box-shadow:0 20px 50px rgba(14,42,59,0.08); overflow:hidden;
+    display:grid; grid-template-columns:0.9fr 1.4fr;
+  }
+  @media (max-width:900px){ .form-shell{ grid-template-columns:1fr; } }
+  .form-side{ background:var(--navy); color:var(--cloud); padding:44px 38px; }
+  .form-side h3{ font-size:1.6rem; }
+  .form-side p{ margin-top:14px; color:rgba(251,248,242,0.7); font-size:0.94rem; }
+  .form-side ul{ margin-top:26px; list-style:none; display:flex; flex-direction:column; gap:14px; }
+  .form-side ul li{ display:flex; gap:10px; font-size:0.88rem; color:rgba(251,248,242,0.82); align-items:flex-start; }
+  .form-side ul li svg{ width:16px; height:16px; color:var(--limestone); flex-shrink:0; margin-top:2px; }
+
+  .form-main{ padding:44px 40px; }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:18px; }
+  @media (max-width:560px){ .field-row{ grid-template-columns:1fr; } }
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  .field.full{ margin-bottom:18px; }
+  label{ font-size:0.82rem; font-weight:700; color:var(--navy); }
+  input[type=text], input[type=email], input[type=tel], input[type=date], input[type=number], select, textarea{
+    border:1.5px solid rgba(28,37,33,0.15); border-radius:6px; padding:11px 13px; font-family:'Manrope';
+    font-size:0.92rem; background:var(--cloud); color:var(--ink); transition:border-color 0.2s ease;
+  }
+  input:focus, select:focus, textarea:focus{ border-color:var(--coral); }
+  textarea{ resize:vertical; min-height:90px; }
+  .chip-group{ display:flex; flex-wrap:wrap; gap:10px; margin-top:4px; }
+  .chip{
+    border:1.5px solid rgba(28,37,33,0.15); border-radius:30px; padding:9px 16px; font-size:0.85rem; font-weight:600;
+    cursor:pointer; background:#fff; transition:all 0.2s ease; user-select:none;
+  }
+  .chip input{ display:none; }
+  .chip.checked{ background:var(--eucalyptus); border-color:var(--eucalyptus); color:#fff; }
+  .form-submit{ margin-top:8px; display:flex; align-items:center; gap:16px; flex-wrap:wrap; }
+  .form-note{ font-size:0.8rem; color:var(--ink-soft); }
+  .confirm-box{
+    display:none; margin-top:26px; background:var(--cloud-dim); border:1px dashed var(--eucalyptus); border-radius:8px;
+    padding:20px 22px; font-size:0.92rem; color:var(--eucalyptus-dark); font-weight:600;
+  }
+  .confirm-box.show{ display:block; }
+
+  /* ---------- TESTIMONIALS ---------- */
+  .testimonials{ background:var(--cloud-dim); padding:110px 0; }
+  .test-grid{ margin-top:50px; display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:900px){ .test-grid{ grid-template-columns:1fr; } }
+  .test-card{ background:#fff; border-radius:8px; padding:30px; border:1px solid rgba(28,37,33,0.07); display:flex; flex-direction:column; gap:16px; }
+  .stars{ color:var(--coral); letter-spacing:2px; font-size:0.9rem; }
+  .test-quote{ font-size:0.96rem; color:var(--ink-soft); line-height:1.6; flex-grow:1; }
+  .test-who{ display:flex; align-items:center; gap:12px; }
+  .avatar{ width:36px; height:36px; border-radius:50%; background:var(--eucalyptus); color:#fff; font-family:'Fraunces'; display:flex; align-items:center; justify-content:center; font-size:0.9rem; }
+  .test-who .name{ font-weight:700; font-size:0.88rem; color:var(--navy); }
+  .test-who .trip{ font-size:0.76rem; color:var(--ink-soft); font-family:'IBM Plex Mono'; }
+
+  /* ---------- FAQ ---------- */
+  .faq{ background:var(--cloud); padding:110px 0; }
+  .faq-list{ margin-top:44px; max-width:760px; }
+  details{ border-bottom:1px solid rgba(28,37,33,0.12); padding:22px 0; }
+  summary{ list-style:none; cursor:pointer; display:flex; justify-content:space-between; align-items:center; font-weight:700; font-size:1.02rem; color:var(--navy); }
+  summary::-webkit-details-marker{ display:none; }
+  summary::after{ content:'+'; font-family:'IBM Plex Mono'; font-size:1.3rem; color:var(--coral); transition:transform 0.25s ease; margin-left:20px; flex-shrink:0; }
+  details[open] summary::after{ transform:rotate(45deg); }
+  details p{ margin-top:12px; color:var(--ink-soft); max-width:620px; font-size:0.95rem; }
+
+  /* ---------- CTA / FOOTER ---------- */
+  .cta-band{ background:linear-gradient(120deg, var(--coral), var(--coral-dark)); padding:80px 0; text-align:center; color:#fff; }
+  .cta-band h2{ font-size:clamp(1.8rem,4.5vw,2.8rem); color:#fff; }
+  .cta-band p{ color:rgba(255,255,255,0.85); margin:16px auto 30px; max-width:480px; }
+  .cta-band .btn-primary{ background:var(--navy); }
+  .cta-band .btn-primary:hover{ background:#081c28; }
+
+  /* ---------- WHATSAPP FLOATING BUTTON ---------- */
+  .whatsapp-fab{
+    position:fixed; right:22px; bottom:22px; z-index:200;
+    display:flex; align-items:center; gap:10px;
+    background:#25D366; color:#fff; padding:14px 20px 14px 14px; border-radius:50px;
+    box-shadow:0 8px 24px rgba(37,211,102,0.4), 0 2px 6px rgba(0,0,0,0.15);
+    font-weight:700; font-size:0.9rem; font-family:'Manrope', sans-serif;
+    transition:transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .whatsapp-fab:hover{ transform:translateY(-3px); box-shadow:0 12px 28px rgba(37,211,102,0.5), 0 2px 6px rgba(0,0,0,0.18); }
+  .whatsapp-fab svg{ width:26px; height:26px; flex-shrink:0; }
+  .whatsapp-fab .wa-ring{
+    position:absolute; inset:0; border-radius:50px; border:2px solid #25D366;
+    animation:wa-pulse 2.2s ease-out infinite;
+  }
+  @keyframes wa-pulse{
+    0%{ transform:scale(1); opacity:0.6; }
+    100%{ transform:scale(1.35); opacity:0; }
+  }
+  @media (max-width:560px){
+    .whatsapp-fab span{ display:none; }
+    .whatsapp-fab{ padding:14px; }
+  }
+
+  footer{ background:var(--navy); color:var(--cloud); padding:56px 0 34px; }
+  .footer-inner{ display:flex; justify-content:space-between; flex-wrap:wrap; gap:24px; align-items:center; }
+  .foot-links{ display:flex; gap:24px; font-size:0.85rem; color:rgba(251,248,242,0.55); }
+  .foot-copy{ font-size:0.8rem; color:rgba(251,248,242,0.35); margin-top:24px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="logo">Aussie<em>Musafir</em></div>
+    <div class="nav-links">
+      <a href="#packages">Packages</a>
+      <a href="#compare">Why us</a>
+      <a href="#customize">Plan a trip</a>
+      <a href="#faq">FAQ</a>
+      <a href="#reviews">Reviews</a>
+    </div>
+    <button class="nav-cta" onclick="document.getElementById('customize').scrollIntoView()">Plan your trip</button>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Private car tours · Victoria, Australia</div>
+      <h1>Skip the 50-seat coach.<br>Travel like a <span class="it">musafir</span> instead.</h1>
+      <p class="hero-sub">Private day tours to the Great Ocean Road, Phillip Island and beyond — one flat fare, your own driver-guide, and a route that moves at your pace, not a bus timetable's.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="document.getElementById('packages').scrollIntoView()">Browse packages</button>
+        <button class="btn-ghost" onclick="document.getElementById('customize').scrollIntoView()">Build a custom trip</button>
+      </div>
+      <p class="mono" style="margin-top:22px; font-size:0.82rem; letter-spacing:0.4px; color:rgba(251,248,242,0.55);">$600 flat for up to 4 guests · $800 flat for up to 6 guests (larger vehicle)</p>
+    </div>
+  </div>
+  <div class="horizon">
+    <svg viewBox="0 0 1200 180" preserveAspectRatio="none">
+      <rect x="0" y="0" width="1200" height="180" fill="#0E2A3B"/>
+      <path d="M0 110 Q120 90 260 108 T520 100 Q650 92 780 112 T1040 102 Q1140 96 1200 108 L1200 180 L0 180 Z" fill="#163C52"/>
+      <rect x="150" y="60" width="34" height="70" rx="3" fill="#1E4B63"/>
+      <rect x="196" y="80" width="22" height="50" rx="3" fill="#1E4B63"/>
+      <rect x="230" y="45" width="40" height="85" rx="3" fill="#1E4B63"/>
+      <path class="wave-anim" d="M0 150 Q60 138 120 150 T240 150 T360 150 T480 150 T600 150 T720 150 T840 150 T960 150 T1080 150 T1200 150 L1200 180 L0 180 Z" fill="#D8C6A3" opacity="0.9"/>
+      <path class="wave-anim" d="M0 165 Q60 155 120 165 T240 165 T360 165 T480 165 T600 165 T720 165 T840 165 T960 165 T1080 165 T1200 165 L1200 180 L0 180 Z" fill="#FBF8F2"/>
+    </svg>
+  </div>
+</section>
+
+<section class="trust-strip">
+  <div class="wrap trust-inner">
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg> $600 flat (4 guests) · $800 flat (6 guests)</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2c2 4 5 7 5 11a5 5 0 0 1-10 0c0-4 3-7 5-11z"/></svg> Water bottles included</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 8v6M9 11h6"/></svg> First-aid kit onboard</span>
+    <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3.4"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg> Licensed guide-driver</span>
+  </div>
+</section>
+
+<section class="packages" id="packages">
+  <div class="wrap">
+    <div class="sec-head-row">
+      <div>
+        <div class="sec-tag">Popular routes</div>
+        <h2 class="sec-title">Pick a postcard, or write your own</h2>
+        <p class="sec-desc">Every route below is $600 flat for up to 4 guests, or $800 flat for up to 6 in our larger vehicle. Swap a stop, stretch a stay, or send us something entirely different using the form below.</p>
+      </div>
+    </div>
+
+    <div class="postcard-grid">
+
+      <a class="postcard" href="trip-great-ocean-road.html">
+        <div class="postcard-scene">
+          <div class="postcard-airmail"></div>
+          <svg viewBox="0 0 400 150" preserveAspectRatio="none">
+            <rect width="400" height="150" fill="#E8DCC4"/>
+            <path d="M0 95 Q60 75 120 92 T240 88 T360 95 L400 90 L400 150 L0 150 Z" fill="#C9B79C"/>
+            <rect x="80" y="35" width="20" height="60" rx="2" fill="#B8A47F"/>
+            <rect x="108" y="55" width="14" height="40" rx="2" fill="#B8A47F"/>
+            <rect x="130" y="20" width="24" height="75" rx="2" fill="#B8A47F"/>
+            <rect x="165" y="45" width="16" height="50" rx="2" fill="#B8A47F"/>
+            <path d="M0 118 Q60 108 120 118 T240 118 T360 118 T400 115 L400 150 L0 150 Z" fill="#3C6E8F"/>
+          </svg>
+        </div>
+        <div class="postcard-body">
+          <div class="postcard-top">
+            <div>
+              <h3>Great Ocean Road</h3>
+              <div class="postcard-tag">Twelve Apostles · Loch Ard Gorge</div>
+            </div>
+            <div class="stamp"><div class="p mono">$600</div><div class="l">up to 4</div><div class="stamp-div"></div><div class="p mono">$800</div><div class="l">up to 6</div></div>
+          </div>
+          <ul class="postcard-highlights">
+            <li>The Twelve Apostles limestone stacks at golden hour</li>
+            <li>Loch Ard Gorge and the Otway rainforest walk</li>
+            <li>Erskine Falls short detour, weather permitting</li>
+          </ul>
+          <div class="postcard-foot">
+            <span class="postcard-dur">Full day · ~9 hrs</span>
+            <span class="postcard-cta">View full itinerary →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="postcard" href="trip-phillip-island.html">
+        <div class="postcard-scene">
+          <div class="postcard-airmail"></div>
+          <svg viewBox="0 0 400 150" preserveAspectRatio="none">
+            <rect width="400" height="150" fill="#DDE7E2"/>
+            <path d="M0 100 Q80 85 180 98 T400 92 L400 150 L0 150 Z" fill="#9FB6A9"/>
+            <ellipse cx="290" cy="70" rx="16" ry="12" fill="#1C2521"/>
+            <ellipse cx="290" cy="82" rx="9" ry="10" fill="#fff"/>
+            <ellipse cx="320" cy="76" rx="14" ry="10" fill="#1C2521"/>
+            <ellipse cx="320" cy="87" rx="8" ry="8" fill="#fff"/>
+            <path d="M0 120 Q80 110 180 120 T400 116 L400 150 L0 150 Z" fill="#3C6E8F"/>
+          </svg>
+        </div>
+        <div class="postcard-body">
+          <div class="postcard-top">
+            <div>
+              <h3>Phillip Island</h3>
+              <div class="postcard-tag">Penguin Parade · Nobbies</div>
+            </div>
+            <div class="stamp"><div class="p mono">$600</div><div class="l">up to 4</div><div class="stamp-div"></div><div class="p mono">$800</div><div class="l">up to 6</div></div>
+          </div>
+          <ul class="postcard-highlights">
+            <li>Nobbies Boardwalk and Seal Rocks lookout</li>
+            <li>Coastal photo stops on the way down</li>
+            <li>Penguin Parade at dusk (tickets booked ahead)</li>
+          </ul>
+          <div class="postcard-foot">
+            <span class="postcard-dur">Afternoon–evening · ~7 hrs</span>
+            <span class="postcard-cta">View full itinerary →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="postcard" href="trip-yarra-valley.html">
+        <div class="postcard-scene">
+          <div class="postcard-airmail"></div>
+          <svg viewBox="0 0 400 150" preserveAspectRatio="none">
+            <rect width="400" height="150" fill="#EAE3CE"/>
+            <path d="M0 100 Q100 80 200 96 T400 90 L400 150 L0 150 Z" fill="#B7C9A8"/>
+            <g fill="#7C9468">
+              <circle cx="90" cy="90" r="16"/><circle cx="120" cy="95" r="14"/><circle cx="150" cy="88" r="17"/>
+              <circle cx="250" cy="94" r="15"/><circle cx="280" cy="88" r="18"/><circle cx="310" cy="96" r="13"/>
+            </g>
+          </svg>
+        </div>
+        <div class="postcard-body">
+          <div class="postcard-top">
+            <div>
+              <h3>Yarra Valley</h3>
+              <div class="postcard-tag">Cellar doors · Valley lookout</div>
+            </div>
+            <div class="stamp"><div class="p mono">$600</div><div class="l">up to 4</div><div class="stamp-div"></div><div class="p mono">$800</div><div class="l">up to 6</div></div>
+          </div>
+          <ul class="postcard-highlights">
+            <li>Three boutique cellar doors, chosen to your taste</li>
+            <li>A cheese and produce stop along the way</li>
+            <li>Valley lookout for the drive back</li>
+          </ul>
+          <div class="postcard-foot">
+            <span class="postcard-dur">Full day · ~8 hrs</span>
+            <span class="postcard-cta">View full itinerary →</span>
+          </div>
+        </div>
+      </a>
+
+      <a class="postcard" href="trip-mornington-peninsula.html">
+        <div class="postcard-scene">
+          <div class="postcard-airmail"></div>
+          <svg viewBox="0 0 400 150" preserveAspectRatio="none">
+            <rect width="400" height="150" fill="#F0E6D2"/>
+            <path d="M0 105 Q100 90 200 102 T400 96 L400 150 L0 150 Z" fill="#E4C9A0"/>
+            <path d="M0 122 Q100 112 200 122 T400 118 L400 150 L0 150 Z" fill="#3C6E8F"/>
+            <circle cx="330" cy="45" r="18" fill="#E2704B" opacity="0.85"/>
+          </svg>
+        </div>
+        <div class="postcard-body">
+          <div class="postcard-top">
+            <div>
+              <h3>Mornington Peninsula</h3>
+              <div class="postcard-tag">Back beaches · Hot springs</div>
+            </div>
+            <div class="stamp"><div class="p mono">$600</div><div class="l">up to 4</div><div class="stamp-div"></div><div class="p mono">$800</div><div class="l">up to 6</div></div>
+          </div>
+          <ul class="postcard-highlights">
+            <li>Sorrento back beach and London Bridge lookout</li>
+            <li>Optional stop at the Peninsula Hot Springs</li>
+            <li>A slow coastal drive back through the villages</li>
+          </ul>
+          <div class="postcard-foot">
+            <span class="postcard-dur">Full day · ~8 hrs</span>
+            <span class="postcard-cta">View full itinerary →</span>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="custom-postcard" style="margin-top:32px;">
+      <div>
+        <h3>Don't see your route?</h3>
+        <p>Tell us where you want to go — the Grampians, Wilsons Promontory, or a mix of stops across two regions — and we'll build a one-off itinerary around it.</p>
+      </div>
+      <button class="btn-primary" style="align-self:flex-start;" onclick="selectPackage('Custom route')">Start a custom request</button>
+    </div>
+  </div>
+</section>
+
+<section class="compare" id="compare">
+  <div class="wrap">
+    <div class="sec-tag">Why a private car</div>
+    <h2 class="sec-title">How we compare to the usual options</h2>
+    <p class="sec-desc">Most Great Ocean Road and Phillip Island day trips from Melbourne come down to two choices: a big-group coach, or a private tour priced per person. Here's where a flat-fare car tour lands.</p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th>Group coach tour</th>
+          <th class="highlight-col">AussieMusafir</th>
+          <th>Typical private tour</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Price for 4 people*</td>
+          <td>$400–$600 <span style="opacity:0.6;">($100–150 pp)</span></td>
+          <td class="highlight-col"><strong>$600 flat</strong> ($150 pp)</td>
+          <td>$720–$1,120 <span style="opacity:0.6;">($180–280 pp)</span></td>
+        </tr>
+        <tr>
+          <td>Group size</td>
+          <td>Up to 50 strangers</td>
+          <td class="highlight-col">Just your group, up to 4</td>
+          <td>Just your group</td>
+        </tr>
+        <tr>
+          <td>Pickup</td>
+          <td>Central meeting point only</td>
+          <td class="highlight-col">Your hotel or address</td>
+          <td>Your hotel or address</td>
+        </tr>
+        <tr>
+          <td>Schedule</td>
+          <td>Fixed stops, fixed timing</td>
+          <td class="highlight-col">Flexible, built with you</td>
+          <td>Flexible</td>
+        </tr>
+        <tr>
+          <td>Guide</td>
+          <td>Shared microphone commentary</td>
+          <td class="highlight-col">Dedicated guide-driver</td>
+          <td>Dedicated guide-driver</td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="compare-note">*Figures reflect commonly published rates for day tours from Melbourne to the Great Ocean Road and Phillip Island. Individual operators, seasons and inclusions vary — always confirm current pricing directly.</p>
+
+    <div class="savings-banner" style="margin-top:32px; background:var(--eucalyptus-dark); border-radius:6px; padding:22px 30px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;">
+      <span>Travelling with 5 or 6? Same flat-fare model, just a bigger vehicle.</span>
+      <span class="mono" style="font-weight:700; color:var(--limestone);">$800 flat / up to 6 guests</span>
+    </div>
+  </div>
+</section>
+
+<section class="essentials" id="essentials">
+  <div class="wrap">
+    <div class="sec-tag">What's packed in</div>
+    <h2 class="sec-title">Included on every route</h2>
+    <p class="sec-desc">No add-ons to tick, no surprise line items — this is already covered by the $600 (or $800 for up to 6) fare.</p>
+
+    <div class="ess-grid">
+      <div class="ess-item">
+        <div class="ess-icon-wrap"><svg class="ess-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2c2 4 5 7 5 11a5 5 0 0 1-10 0c0-4 3-7 5-11z"/></svg></div>
+        <h4>Chilled water bottles</h4>
+        <p>One per guest, restocked at the halfway point.</p>
+      </div>
+      <div class="ess-item">
+        <div class="ess-icon-wrap"><svg class="ess-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M12 8v6M9 11h6"/></svg></div>
+        <h4>First-aid kit onboard</h4>
+        <p>Checked and restocked before every trip.</p>
+      </div>
+      <div class="ess-item">
+        <div class="ess-icon-wrap"><svg class="ess-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="3.4"/><path d="M5 21c0-4 3-6.5 7-6.5s7 2.5 7 6.5"/></svg></div>
+        <h4>Licensed guide-driver</h4>
+        <p>Local knowledge, not a pre-recorded script.</p>
+      </div>
+      <div class="ess-item">
+        <div class="ess-icon-wrap"><svg class="ess-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 13l2-6a2 2 0 0 1 2-1h10a2 2 0 0 1 2 1l2 6"/><rect x="2" y="13" width="20" height="6" rx="1.4"/><circle cx="7" cy="19" r="1.4"/><circle cx="17" cy="19" r="1.4"/></svg></div>
+        <h4>A/C, sanitised vehicle</h4>
+        <p>Cleaned before every single tour.</p>
+      </div>
+      <div class="ess-item">
+        <div class="ess-icon-wrap"><svg class="ess-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 21c4-4 7-7.5 7-11a7 7 0 0 0-14 0c0 3.5 3 7 7 11z"/><circle cx="12" cy="10" r="2.4"/></svg></div>
+        <h4>Hotel pickup & drop-off</h4>
+        <p>Free within greater Melbourne.</p>
+      </div>
+      <div class="ess-item">
+        <div class="ess-icon-wrap"><svg class="ess-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <h4>Flexible pacing</h4>
+        <p>Longer at one stop, shorter at another — your call.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="customize" id="customize">
+  <div class="wrap">
+    <div class="sec-tag">Plan your trip</div>
+    <h2 class="sec-title">Tell us what you have in mind</h2>
+    <p class="sec-desc">Pick a starting point below, or leave it blank and describe the day you're after — we'll reply with a route and a confirmed price.</p>
+
+    <div class="form-shell">
+      <div class="form-side">
+        <h3>What happens next</h3>
+        <p>We reply within 24 hours with a suggested route, timing, and confirmed pricing for your group.</p>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-10"/></svg> No payment required to enquire</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-10"/></svg> Free cancellation up to 48 hrs out</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12l4 4 10-10"/></svg> Child seats available on request</li>
+        </ul>
+      </div>
+
+      <form class="form-main" id="tripForm">
+        <div class="field-row">
+          <div class="field">
+            <label for="fname">Full name</label>
+            <input type="text" id="fname" name="fname" required placeholder="Jordan Lee">
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="jordan@email.com">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="phone">Phone</label>
+            <input type="tel" id="phone" name="phone" placeholder="04xx xxx xxx">
+          </div>
+          <div class="field">
+            <label for="pdate">Preferred date</label>
+            <input type="date" id="pdate" name="pdate">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label for="guests">Number of guests</label>
+            <select id="guests" name="guests">
+              <option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option>
+            </select>
+            <span class="form-note" id="fareHint" style="margin-top:2px;">$600 flat fare</span>
+          </div>
+          <div class="field">
+            <label for="pickup">Pickup location</label>
+            <input type="text" id="pickup" name="pickup" placeholder="Hotel or suburb">
+          </div>
+        </div>
+
+        <div class="field full">
+          <label>Destination interest</label>
+          <div class="chip-group" id="chipGroup">
+            <label class="chip"><input type="checkbox" value="Great Ocean Road"> Great Ocean Road</label>
+            <label class="chip"><input type="checkbox" value="Phillip Island"> Phillip Island</label>
+            <label class="chip"><input type="checkbox" value="Yarra Valley"> Yarra Valley</label>
+            <label class="chip"><input type="checkbox" value="Mornington Peninsula"> Mornington Peninsula</label>
+            <label class="chip"><input type="checkbox" value="Custom route"> Something custom</label>
+          </div>
+        </div>
+
+        <div class="field full">
+          <label for="notes">Tell us about the trip</label>
+          <textarea id="notes" name="notes" placeholder="Occasion, must-see stops, dietary notes, anything else that helps us plan."></textarea>
+        </div>
+
+        <div class="form-submit">
+          <button type="submit" class="btn-primary" style="background:var(--eucalyptus);">Send trip request</button>
+          <span class="form-note">We'll never share your details.</span>
+        </div>
+
+        <div class="confirm-box" id="confirmBox">Thanks — your request has been noted. We'll follow up by email within 24 hours with a route and confirmed price.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials" id="reviews">
+  <div class="wrap">
+    <div class="sec-tag">Riders say</div>
+    <h2 class="sec-title">From the back seat</h2>
+
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="stars">★★★★★</div>
+        <p class="test-quote">We did the Great Ocean Road with a coach tour years ago and it felt rushed the whole time. This time we actually stood at the Twelve Apostles for as long as we wanted.</p>
+        <div class="test-who"><div class="avatar">M</div><div><div class="name">Mira T.</div><div class="trip">Great Ocean Road</div></div></div>
+      </div>
+      <div class="test-card">
+        <div class="stars">★★★★★</div>
+        <p class="test-quote">Only three of us but we still paid the same $600 as a full car — split three ways it beat every per-person quote we found for Phillip Island.</p>
+        <div class="test-who"><div class="avatar">D</div><div><div class="name">Daniel K.</div><div class="trip">Phillip Island</div></div></div>
+      </div>
+      <div class="test-card">
+        <div class="stars">★★★★★</div>
+        <p class="test-quote">Sent through a custom request for a Yarra Valley day with a stop we'd read about, and it was on the itinerary within a day. Easy from start to finish.</p>
+        <div class="test-who"><div class="avatar">A</div><div><div class="name">Ana R.</div><div class="trip">Custom Yarra Valley route</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="sec-tag">Good to know</div>
+    <h2 class="sec-title">Frequently asked questions</h2>
+
+    <div class="faq-list">
+      <details open>
+        <summary>Is $600 really the total price, not per person?</summary>
+        <p>Yes — $600 AUD covers the car, fuel, and your guide-driver for the whole day, for up to 4 guests. Split it between your group however you like.</p>
+      </details>
+      <details>
+        <summary>What if there are 5 or 6 of us?</summary>
+        <p>We move you into a larger vehicle for $800 flat, still for the whole day, still with a dedicated guide-driver. Just select your group size in the trip request form and we'll confirm the right vehicle.</p>
+      </details>
+      <details>
+        <summary>Can I combine destinations, like Great Ocean Road and Phillip Island?</summary>
+        <p>Not in a single day — they're on opposite sides of Melbourne — but let us know in the custom request form and we'll suggest the best way to fit both into your trip.</p>
+      </details>
+      <details>
+        <summary>Do you book Penguin Parade tickets for the Phillip Island tour?</summary>
+        <p>Yes, we handle the booking once your tour is confirmed. The ticket cost is separate from the $600 tour fare.</p>
+      </details>
+      <details>
+        <summary>What's your cancellation policy?</summary>
+        <p>Free cancellation up to 48 hours before your tour. Inside 48 hours, a partial fee may apply — we'll confirm this when you book.</p>
+      </details>
+      <details>
+        <summary>Do you provide child seats?</summary>
+        <p>Yes, on request. Mention the number and ages of children in the trip request form.</p>
+      </details>
+      <details>
+        <summary>Is gratuity included?</summary>
+        <p>No, gratuity isn't included in the $600 fare — always appreciated, but entirely up to you.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="cta-band">
+  <div class="wrap">
+    <h2>Your coast road, your own safar.</h2>
+    <p>Pick a route or write your own — we'll hold the car and confirm the price.</p>
+    <button class="btn-primary" onclick="document.getElementById('customize').scrollIntoView()">Plan your trip</button>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="logo">Aussie<em>Musafir</em></div>
+      <div class="foot-links">
+        <a href="#packages">Packages</a>
+        <a href="#compare">Why us</a>
+        <a href="#customize">Plan a trip</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </div>
+    <div class="foot-copy">© 2026 AussieMusafir. Private car tours across Victoria, Australia.</div>
+  </div>
+</footer>
+
+<a
+  class="whatsapp-fab"
+  id="whatsappFab"
+  href="https://wa.me/61400000000?text=Hi%20AussieMusafir%2C%20I%27d%20like%20a%20quote%20for%20a%20tour"
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label="Contact us on WhatsApp for a quote"
+>
+  <span class="wa-ring" aria-hidden="true"></span>
+  <svg viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><path d="M16.02 3C9.4 3 4.02 8.38 4.02 15c0 2.32.65 4.48 1.78 6.33L4 29l7.86-1.76A11.9 11.9 0 0 0 16.02 27C22.64 27 28 21.62 28 15S22.64 3 16.02 3zm0 21.7c-1.98 0-3.83-.55-5.4-1.5l-.39-.23-4.66 1.04 1.06-4.54-.25-.4A9.63 9.63 0 0 1 6.32 15c0-5.34 4.36-9.7 9.7-9.7S25.7 9.66 25.7 15s-4.34 9.7-9.68 9.7zm5.32-7.27c-.29-.15-1.72-.85-1.99-.95-.27-.1-.46-.15-.66.15-.2.29-.76.95-.93 1.14-.17.2-.34.22-.63.07-.29-.15-1.22-.45-2.32-1.43-.86-.77-1.44-1.71-1.61-2-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.2-.29.29-.49.1-.2.05-.37-.02-.51-.07-.15-.66-1.59-.91-2.18-.24-.57-.48-.5-.66-.51h-.56c-.2 0-.51.07-.78.37-.27.29-1.02 1-1.02 2.45s1.05 2.84 1.19 3.04c.15.2 2.06 3.14 4.99 4.4.7.3 1.24.48 1.67.61.7.22 1.34.19 1.84.12.56-.08 1.72-.7 1.96-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.2-.55-.34z"/></svg>
+  <span>Contact us for a quote</span>
+</a>
+
+<script>
+  // Pre-select a destination chip if arriving from a trip detail page with ?package=
+  (function applyPackageFromQuery(){
+    const params = new URLSearchParams(window.location.search);
+    const pkg = params.get('package');
+    if(pkg){
+      document.querySelectorAll('.chip').forEach(chip => {
+        const input = chip.querySelector('input');
+        if(input.value === pkg){
+          input.checked = true;
+          chip.classList.add('checked');
+        }
+      });
+      if(window.location.hash === '#customize'){
+        window.addEventListener('load', () => {
+          document.getElementById('customize').scrollIntoView();
+        });
+      }
+    }
+  })();
+
+  // Live fare hint based on guest count
+  const guestsSelect = document.getElementById('guests');
+  const fareHint = document.getElementById('fareHint');
+  function updateFareHint(){
+    const n = parseInt(guestsSelect.value, 10);
+    fareHint.textContent = n > 4 ? '$800 flat fare (larger vehicle)' : '$600 flat fare';
+  }
+  guestsSelect.addEventListener('change', updateFareHint);
+  updateFareHint();
+
+  // Chip toggle behaviour for destination interest
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const input = chip.querySelector('input');
+      setTimeout(() => chip.classList.toggle('checked', input.checked), 0);
+    });
+  });
+
+  // Pre-select a destination chip when "Request this route" is clicked on a postcard
+  function selectPackage(name){
+    document.querySelectorAll('.chip').forEach(chip => {
+      const input = chip.querySelector('input');
+      const match = input.value === name;
+      input.checked = match ? true : input.checked;
+      if(match) chip.classList.add('checked');
+    });
+    document.getElementById('customize').scrollIntoView({ behavior: 'smooth' });
+    document.getElementById('fname').focus({ preventScroll: true });
+  }
+
+  // Only one FAQ item open at a time
+  document.querySelectorAll('.faq-list details').forEach(d => {
+    d.addEventListener('toggle', () => {
+      if(d.open){
+        document.querySelectorAll('.faq-list details').forEach(other => {
+          if(other !== d) other.open = false;
+        });
+      }
+    });
+  });
+
+  // Trip request form — client-side only for now
+  const tripForm = document.getElementById('tripForm');
+  const confirmBox = document.getElementById('confirmBox');
+  tripForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if(!tripForm.checkValidity()){
+      tripForm.reportValidity();
+      return;
+    }
+    confirmBox.classList.add('show');
+    confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    tripForm.querySelector('button[type=submit]').textContent = 'Request sent ✓';
+    tripForm.querySelector('button[type=submit]').disabled = true;
+  });
+</script>
+
+</body>
+</html>
