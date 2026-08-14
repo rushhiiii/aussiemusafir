@@ -334,17 +334,75 @@
   .tl-dur{ display:inline-block; margin-top:10px; font-size:0.74rem; padding:4px 10px; border:1px solid rgba(28,37,33,0.15); border-radius:20px; color:var(--ink-soft); }
 
   .trip-incl{ background:var(--cloud-dim); padding:90px 0; }
-  .incl-grid{ margin-top:44px; display:grid; grid-template-columns:1fr 1fr; gap:26px; }
-  @media (max-width:760px){ .incl-grid{ grid-template-columns:1fr; } }
-  .incl-card{ background:#fff; border-radius:8px; padding:30px; border:1px solid rgba(28,37,33,0.07); }
-  .incl-card h3{ font-size:1.1rem; margin-bottom:18px; display:flex; align-items:center; gap:8px; }
+  .incl-grid{ margin-top:44px; display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+  @media (max-width:760px){ .incl-grid{ grid-template-columns:1fr; gap:24px; } }
+  .incl-card{
+    background:#fff;
+    border-radius:12px;
+    padding:40px;
+    border:1px solid rgba(28,37,33,0.06);
+    box-shadow: 0 4px 20px rgba(14, 42, 59, 0.02);
+    position: relative;
+    overflow: hidden;
+  }
+  .incl-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+  }
+  .incl-card.include::before {
+    background: var(--eucalyptus);
+  }
+  .incl-card.exclude::before {
+    background: var(--coral);
+  }
+  .incl-card.include {
+    background: linear-gradient(180deg, rgba(86, 118, 91, 0.01) 0%, rgba(255, 255, 255, 1) 100%), #fff;
+    border: 1px solid rgba(86, 118, 91, 0.12);
+  }
+  .incl-card.exclude {
+    background: linear-gradient(180deg, rgba(226, 112, 75, 0.01) 0%, rgba(255, 255, 255, 1) 100%), #fff;
+    border: 1px solid rgba(226, 112, 75, 0.12);
+  }
+  .incl-card h3{
+    font-family: 'Fraunces', serif;
+    font-size:1.35rem;
+    font-weight: 600;
+    margin-bottom:24px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
   .incl-card.exclude h3{ color:var(--coral-dark); }
   .incl-card.include h3{ color:var(--eucalyptus-dark); }
-  .incl-list{ list-style:none; display:flex; flex-direction:column; gap:12px; }
-  .incl-list li{ display:flex; gap:10px; font-size:0.92rem; color:var(--ink-soft); align-items:flex-start; }
-  .incl-list svg{ width:18px; height:18px; flex-shrink:0; margin-top:1px; }
-  .incl-card.include svg{ color:var(--eucalyptus); }
-  .incl-card.exclude svg{ color:var(--coral); }
+  .incl-list{ list-style:none; display:flex; flex-direction:column; gap:16px; }
+  .incl-list li{
+    display:flex;
+    gap:14px;
+    font-size:0.96rem;
+    color:var(--ink);
+    align-items:flex-start;
+    line-height: 1.45;
+  }
+  .incl-list svg{
+    width:20px;
+    height:20px;
+    flex-shrink:0;
+    border-radius: 50%;
+    padding: 3px;
+    margin-top: 1px;
+  }
+  .incl-card.include .incl-list svg{
+    color:var(--eucalyptus);
+    background: rgba(86, 118, 91, 0.08);
+  }
+  .incl-card.exclude .incl-list svg{
+    color:var(--coral);
+    background: rgba(226, 112, 75, 0.08);
+  }
 
 </style>
 </head>
