@@ -1,0 +1,7 @@
+.git
+db
+functions
+.assetsignore
+.gitignore
+README.md
+wrangler.toml

@@ -1,0 +1,11 @@
+name = "aussiemusafir"
+main = "index.js"
+compatibility_date = "2026-08-14"
+
+[assets]
+directory = "."
+
+[[d1_databases]]
+binding = "DB"
+database_name = "aussiemusafir-db"
+database_id = "47459e15-5b5b-4390-abc3-d27ab1c11f56"
