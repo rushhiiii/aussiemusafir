@@ -309,7 +309,7 @@
   .gallery-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:14px; }
   @media (max-width:760px){ .gallery-grid{ grid-template-columns:1fr; } }
   .gallery-item{ border-radius:8px; overflow:hidden; box-shadow:0 16px 36px rgba(14,42,59,0.18); border:4px solid var(--cloud); background:#fff; }
-  .gallery-item svg{ width:100%; height:100%; display:block; }
+  .gallery-item svg, .gallery-item img{ width:100%; height:100%; object-fit:cover; display:block; }
   .gallery-main{ height:360px; }
   .gallery-col{ display:flex; flex-direction:column; gap:14px; }
   .gallery-item.short{ height:173px; }
@@ -388,34 +388,10 @@
 <section class="trip-gallery">
   <div class="wrap">
     <div class="gallery-grid">
-      <div class="gallery-item gallery-main"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid slice">
-<rect width="700" height="400" fill="#E8DCC4"/>
-<path d="M0 260 Q140 210 280 250 T560 240 T700 250 L700 400 L0 400 Z" fill="#C9B79C"/>
-<rect x="150" y="120" width="42" height="150" rx="4" fill="#B8A47F"/>
-<rect x="205" y="160" width="28" height="110" rx="4" fill="#B8A47F"/>
-<rect x="250" y="90" width="50" height="180" rx="4" fill="#B8A47F"/>
-<rect x="315" y="140" width="32" height="130" rx="4" fill="#B8A47F"/>
-<rect x="365" y="170" width="24" height="100" rx="4" fill="#B8A47F"/>
-<path d="M0 320 Q140 300 280 320 T560 320 T700 315 L700 400 L0 400 Z" fill="#3C6E8F"/>
-<path d="M0 350 Q140 335 280 350 T560 350 T700 348 L700 400 L0 400 Z" fill="#5C88A8"/>
-</svg></div>
+      <div class="gallery-item gallery-main"><img src="assets/great_ocean_road.png" alt="Twelve Apostles"></div>
       <div class="gallery-col">
-        <div class="gallery-item short"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-<rect width="400" height="300" fill="#DCE6D6"/>
-<circle cx="90" cy="150" r="55" fill="#6E8F5E"/>
-<circle cx="150" cy="120" r="70" fill="#7C9F6B"/>
-<circle cx="230" cy="160" r="60" fill="#6E8F5E"/>
-<circle cx="310" cy="130" r="65" fill="#7C9F6B"/>
-<rect x="245" y="60" width="10" height="180" fill="#EFEAD8" opacity="0.85"/>
-<path d="M0 250 Q100 235 200 250 T400 245 L400 300 L0 300 Z" fill="#3C6E8F"/>
-</svg></div>
-        <div class="gallery-item short"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-<rect width="400" height="300" fill="#F0E6D2"/>
-<path d="M0 190 Q100 165 200 185 T400 175 L400 300 L0 300 Z" fill="#E4C9A0"/>
-<rect x="60" y="80" width="30" height="110" rx="4" fill="#B8A47F"/>
-<rect x="105" y="110" width="20" height="80" rx="4" fill="#B8A47F"/>
-<path d="M0 235 Q100 220 200 235 T400 228 L400 300 L0 300 Z" fill="#3C6E8F"/>
-</svg></div>
+        <div class="gallery-item short"><img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=400&h=300&q=80" alt="Lorne Beach"></div>
+        <div class="gallery-item short"><img src="https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=400&h=300&q=80" alt="Otway Rainforest"></div>
       </div>
     </div>
   </div>

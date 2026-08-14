@@ -309,7 +309,7 @@
   .gallery-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:14px; }
   @media (max-width:760px){ .gallery-grid{ grid-template-columns:1fr; } }
   .gallery-item{ border-radius:8px; overflow:hidden; box-shadow:0 16px 36px rgba(14,42,59,0.18); border:4px solid var(--cloud); background:#fff; }
-  .gallery-item svg{ width:100%; height:100%; display:block; }
+  .gallery-item svg, .gallery-item img{ width:100%; height:100%; object-fit:cover; display:block; }
   .gallery-main{ height:360px; }
   .gallery-col{ display:flex; flex-direction:column; gap:14px; }
   .gallery-item.short{ height:173px; }
@@ -388,33 +388,10 @@
 <section class="trip-gallery">
   <div class="wrap">
     <div class="gallery-grid">
-      <div class="gallery-item gallery-main"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid slice">
-<rect width="700" height="400" fill="#EAE3CE"/>
-<path d="M0 260 Q175 220 350 250 T700 240 L700 400 L0 400 Z" fill="#B7C9A8"/>
-<g fill="#7C9468">
-<circle cx="120" cy="235" r="26"/><circle cx="165" cy="245" r="22"/><circle cx="210" cy="230" r="28"/>
-<circle cx="330" cy="240" r="24"/><circle cx="380" cy="225" r="30"/><circle cx="430" cy="248" r="20"/>
-<circle cx="520" cy="235" r="26"/><circle cx="570" cy="222" r="24"/>
-</g>
-<rect x="250" y="140" width="60" height="45" rx="3" fill="#B8A47F"/>
-<polygon points="248,140 280,110 312,140" fill="#8B6F47"/>
-</svg></div>
+      <div class="gallery-item gallery-main"><img src="assets/yarra_valley.png" alt="Yarra Valley Vineyards"></div>
       <div class="gallery-col">
-        <div class="gallery-item short"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-<rect width="400" height="300" fill="#F1EAD9"/>
-<path d="M0 200 Q100 180 200 200 T400 190 L400 300 L0 300 Z" fill="#C9B79C"/>
-<g stroke="#7C9468" stroke-width="4">
-<line x1="40" y1="230" x2="40" y2="170"/><line x1="70" y1="230" x2="70" y2="170"/>
-<line x1="100" y1="230" x2="100" y2="170"/><line x1="130" y1="230" x2="130" y2="170"/>
-<line x1="160" y1="230" x2="160" y2="170"/><line x1="190" y1="230" x2="190" y2="170"/>
-</g>
-</svg></div>
-        <div class="gallery-item short"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-<rect width="400" height="300" fill="#EFE7D2"/>
-<path d="M0 130 Q100 105 200 128 T400 118 L400 300 L0 300 Z" fill="#9FB08A"/>
-<path d="M0 190 Q100 170 200 188 T400 178 L400 300 L0 300 Z" fill="#B7C9A8"/>
-<path d="M0 240 Q100 225 200 240 T400 232 L400 300 L0 300 Z" fill="#D8C6A3"/>
-</svg></div>
+        <div class="gallery-item short"><img src="https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?auto=format&fit=crop&w=400&h=300&q=80" alt="Wine Tasting"></div>
+        <div class="gallery-item short"><img src="https://images.unsplash.com/photo-1516259762381-22954d7d3ad2?auto=format&fit=crop&w=400&h=300&q=80" alt="Yarra Valley Hills"></div>
       </div>
     </div>
   </div>

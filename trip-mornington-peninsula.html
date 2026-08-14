@@ -309,7 +309,7 @@
   .gallery-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:14px; }
   @media (max-width:760px){ .gallery-grid{ grid-template-columns:1fr; } }
   .gallery-item{ border-radius:8px; overflow:hidden; box-shadow:0 16px 36px rgba(14,42,59,0.18); border:4px solid var(--cloud); background:#fff; }
-  .gallery-item svg{ width:100%; height:100%; display:block; }
+  .gallery-item svg, .gallery-item img{ width:100%; height:100%; object-fit:cover; display:block; }
   .gallery-main{ height:360px; }
   .gallery-col{ display:flex; flex-direction:column; gap:14px; }
   .gallery-item.short{ height:173px; }
@@ -388,28 +388,10 @@
 <section class="trip-gallery">
   <div class="wrap">
     <div class="gallery-grid">
-      <div class="gallery-item gallery-main"><svg viewBox="0 0 700 400" preserveAspectRatio="xMidYMid slice">
-<rect width="700" height="400" fill="#F0E6D2"/>
-<path d="M0 250 Q175 220 350 245 T700 235 L700 400 L0 400 Z" fill="#E4C9A0"/>
-<path d="M0 310 Q175 292 350 310 T700 300 L700 400 L0 400 Z" fill="#3C6E8F"/>
-<circle cx="580" cy="90" r="30" fill="#E2704B" opacity="0.85"/>
-<ellipse cx="420" cy="330" rx="60" ry="20" fill="#7FC1B8" opacity="0.8"/>
-<ellipse cx="500" cy="345" rx="45" ry="16" fill="#7FC1B8" opacity="0.7"/>
-</svg></div>
+      <div class="gallery-item gallery-main"><img src="assets/mornington_peninsula.png" alt="Mornington Bathing Boxes"></div>
       <div class="gallery-col">
-        <div class="gallery-item short"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-<rect width="400" height="300" fill="#E9E1D1"/>
-<path d="M120 250 L160 130 L200 250 Z" fill="none" stroke="#163C52" stroke-width="10"/>
-<path d="M0 250 Q100 235 200 250 T400 240 L400 300 L0 300 Z" fill="#3C6E8F"/>
-</svg></div>
-        <div class="gallery-item short"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice">
-<rect width="400" height="300" fill="#F1E5D0"/>
-<path d="M0 220 Q100 195 200 218 T400 205 L400 300 L0 300 Z" fill="#C9855F"/>
-<g fill="#7C9468">
-<circle cx="80" cy="205" r="16"/><circle cx="120" cy="212" r="14"/><circle cx="160" cy="200" r="17"/>
-<circle cx="260" cy="208" r="15"/><circle cx="300" cy="198" r="18"/>
-</g>
-</svg></div>
+        <div class="gallery-item short"><img src="https://images.unsplash.com/photo-1578593139826-646df51bbf3c?auto=format&fit=crop&w=400&h=300&q=80" alt="Sorrento Coast"></div>
+        <div class="gallery-item short"><img src="https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=400&h=300&q=80" alt="Peninsula Hot Springs"></div>
       </div>
     </div>
   </div>
