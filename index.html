@@ -850,19 +850,79 @@
     });
   });
 
-  // Trip request form — client-side only for now
+  // Trip request form — integrating with Cloudflare D1
   const tripForm = document.getElementById('tripForm');
   const confirmBox = document.getElementById('confirmBox');
-  tripForm.addEventListener('submit', (e) => {
+  const submitBtn = tripForm.querySelector('button[type=submit]');
+
+  tripForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     if(!tripForm.checkValidity()){
       tripForm.reportValidity();
       return;
     }
-    confirmBox.classList.add('show');
-    confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    tripForm.querySelector('button[type=submit]').textContent = 'Request sent ✓';
-    tripForm.querySelector('button[type=submit]').disabled = true;
+
+    // Set loading state
+    const originalBtnText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending...';
+    submitBtn.disabled = true;
+    confirmBox.classList.remove('show');
+    confirmBox.style.borderColor = '';
+    confirmBox.style.color = '';
+
+    // Gather form values
+    const fname = document.getElementById('fname').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const pdate = document.getElementById('pdate').value;
+    const guests = document.getElementById('guests').value;
+    const pickup = document.getElementById('pickup').value;
+    
+    // Destinations from checkbox chips
+    const destinations = Array.from(document.querySelectorAll('#chipGroup input[type="checkbox"]:checked'))
+      .map(cb => cb.value);
+
+    const notes = document.getElementById('notes').value;
+
+    try {
+      const response = await fetch('/api/booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          fname,
+          email,
+          phone,
+          pdate,
+          guests,
+          pickup,
+          destinations,
+          notes
+        })
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        confirmBox.textContent = "Thanks — your request has been noted. We'll follow up by email within 24 hours with a route and confirmed price.";
+        confirmBox.classList.add('show');
+        confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        submitBtn.textContent = 'Request sent ✓';
+        submitBtn.disabled = true;
+      } else {
+        throw new Error(result.error || 'Failed to submit booking request.');
+      }
+    } catch (error) {
+      console.error('Booking submission error:', error);
+      confirmBox.textContent = `Submission failed: ${error.message}. Please check your details and try again, or contact us directly on WhatsApp.`;
+      confirmBox.style.borderColor = 'var(--coral)';
+      confirmBox.style.color = 'var(--coral-dark)';
+      confirmBox.classList.add('show');
+      confirmBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      submitBtn.textContent = originalBtnText;
+      submitBtn.disabled = false;
+    }
   });
 </script>
 

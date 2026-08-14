@@ -1,0 +1,8 @@
+name = "aussiemusafir"
+pages_build_output_dir = "."
+compatibility_date = "2026-08-14"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "aussiemusafir-db"
+database_id = "47459e15-5b5b-4390-abc3-d27ab1c11f56"
